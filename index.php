@@ -2,6 +2,8 @@
 
 //session start
 use database\DataBase;
+use database\CreateDB;
+
 
 session_start();
 
@@ -12,13 +14,16 @@ define('DISPLAY_ERRORS', true);
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'news');
 define('DB_PORT', 3308);
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
 
 
 require_once 'database/DataBase.php';
-$db = new DataBase();
-
+require_once 'database/CreateDB.php';
+require_once 'activities/Admin/Category.php';
+//$db = new DataBase();
+//$db = new CreateDB();
+//$db->run();
 function uri($reservedUrl, $class, $method, $requestMethod = 'GET')
 {
     $currentUrl = explode('?', currentUrl())[0];
@@ -26,7 +31,6 @@ function uri($reservedUrl, $class, $method, $requestMethod = 'GET')
     $currentUrl = trim($currentUrl, '/');
     $currentUrlArray = explode('/', $currentUrl);
     $currentUrlArray = array_filter($currentUrlArray);
-
     // reserved Url array
 
     $reservedUrl = trim($reservedUrl, '/');
@@ -50,12 +54,11 @@ function uri($reservedUrl, $class, $method, $requestMethod = 'GET')
         $request = isset($_FILES) ? array_merge($_FILES, $_POST) : $_POST;
         $parameters = array_merge([$request], $parameters);
     }
-
     $object = new $class;
     call_user_func_array([$object, $method], $parameters);
     exit();
 }
-uri('admin/category', 'Category', 'index');
+//uri('admin/category', 'Category', 'index');
 //helpers
 function protocol()
 {
@@ -125,3 +128,11 @@ function dd($var)
     var_dump($var);
     exit;
 }
+
+
+// Category
+
+uri('admin/category', 'Admin\Category', 'index');
+
+
+echo '404 - page not found';
