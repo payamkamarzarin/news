@@ -3,6 +3,8 @@
 namespace Admin;
 
 class Admin{
+    protected string $currentDomain;
+    protected string $basePath;
     function __construct()
     {
         $this->currentDomain = CURRENT_DOMAIN;
